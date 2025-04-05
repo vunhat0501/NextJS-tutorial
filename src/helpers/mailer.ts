@@ -29,17 +29,22 @@ export const sendEmail = async ({email, emailType, userId}: {email: string, emai
             }
         });
 
+        // email link base on email type
+        const link = emailType === "verify" 
+            ? `${process.env.DOMAIN}/verifyemail?token=${hashedToken}`
+            : `${process.env.DOMAIN}/resetpassword?token=${hashedToken}`;
+
         const mailOptions = {
             from: 'vunhat4869@gmail.com',
             to: email,
             subject: emailType === "verify" ? "Verify your email" : "Reset your password",
             html: `
                 <p>
-                    Click <a href="http://localhost:3000/verify/${emailType}/${hashedToken}">here</a> 
+                    Click <a href="${link}">here</a> 
                     to ${emailType === "verify" ? "verify your email" : "reset your password"}.
                     Or copy and paste the link below into your browser.
                     <br>
-                    ${process.env.DOMAIN}/verifyemail?token=${hashedToken}
+                    ${link}
                 </p>
             `,
         };

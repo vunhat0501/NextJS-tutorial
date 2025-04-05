@@ -56,8 +56,8 @@ export default function VerifyEmailPage() {
                 <div className="text-center">
                     <h2 className="text-2xl bg-red-500 text-black">Error</h2>
                     <p className="mt-2 text-sm">The token may be invalid or expired.</p>
-                    <div className="bg-blue-500 text-white">
-                        <Link href='/signup'>Signup</Link>
+                    <div className="mt-4">
+                        <Link href='/signup' className="text-blue-600 underline">Signup</Link>
                     </div>
                 </div>
             )}

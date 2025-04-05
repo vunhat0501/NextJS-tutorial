@@ -9,7 +9,11 @@ export async function POST(request: NextRequest) {
         const {token} = reqBody;
         console.log(token);
 
-        const user = await User.findOne({verifyToken: token, verifyTokenExpiry: {$gt: Date.now()}});
+        const user = await User.findOne({
+            verifyToken: token, 
+            verifyTokenExpiry: {$gt: Date.now()}
+        });
+
         if (!user) {
             return NextResponse.json({error: "Invalid token"}, {status: 400})
         }
@@ -20,7 +24,11 @@ export async function POST(request: NextRequest) {
         user.verifyTokenExpiry = undefined; // remove the expiry date
         await user.save(); // Save the changes to database
 
-        return NextResponse.json({message: "Email verified successfully", success: true});
+        return NextResponse.json({
+            message: "Email verified successfully", 
+            success: true
+        });
+        
     } catch (error: unknown) {
         if (error instanceof Error) {
             console.error("Signup failed:", error.message);
