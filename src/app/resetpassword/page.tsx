@@ -1,34 +1,36 @@
-"use client";
+'use client';
 
-import axios from "axios";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import axios from 'axios';
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
 
 export default function ForgotPasswordPage() {
-    const [token, setToken] = useState("");
-    const [newPassword, setNewPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [token, setToken] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [success, setSuccess] = useState(false);
-    const [error, setError] = useState("");
+    const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const urlToken = new URLSearchParams(window.location.search).get("token");
+        const urlToken = new URLSearchParams(window.location.search).get(
+            'token',
+        );
         if (urlToken) setToken(urlToken);
         setLoading(false);
     }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError("");
+        setError('');
 
         if (newPassword !== confirmPassword) {
-            setError("Passwords do not match.");
+            setError('Passwords do not match.');
             return;
         }
 
         try {
-            const res = await axios.post("/api/users/resetpassword", {
+            const res = await axios.post('/api/users/resetpassword', {
                 token,
                 newPassword,
                 confirmPassword,
@@ -41,7 +43,7 @@ export default function ForgotPasswordPage() {
             if (axios.isAxiosError(err) && err.response?.data?.error) {
                 setError(err.response.data.error);
             } else {
-                setError("Something went wrong. Please try again.");
+                setError('Something went wrong. Please try again.');
             }
         }
     };
@@ -53,7 +55,10 @@ export default function ForgotPasswordPage() {
             {loading && <p className="text-lg text-gray-600">Loading...</p>}
 
             {!loading && !success && (
-                <form onSubmit={handleSubmit} className="flex flex-col w-full max-w-md gap-4 p-4 border rounded-md">
+                <form
+                    onSubmit={handleSubmit}
+                    className="flex flex-col w-full max-w-md gap-4 p-4 border rounded-md"
+                >
                     <input
                         type="password"
                         placeholder="New password"
@@ -82,9 +87,14 @@ export default function ForgotPasswordPage() {
 
             {!loading && success && (
                 <div className="text-center">
-                    <h2 className="text-2xl text-green-600">Password reset successfully!</h2>
+                    <h2 className="text-2xl text-green-600">
+                        Password reset successfully!
+                    </h2>
                     <div className="mt-4">
-                        <Link href="/signin" className="text-blue-600 underline">
+                        <Link
+                            href="/signin"
+                            className="text-blue-600 underline"
+                        >
                             Sign in
                         </Link>
                     </div>
